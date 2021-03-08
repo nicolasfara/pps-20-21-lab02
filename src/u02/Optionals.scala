@@ -21,6 +21,21 @@ object Optionals extends App {
       case Some(a) => f(a)
       case _ => None()
     }
+
+    def filter[A](opt: Option[A])(p: A => Boolean): Option[A] = opt match {
+      case Some(a) if p(a) => Some(a)
+      case _ => None()
+    }
+
+    def map[A, B](opt: Option[A])(f: A => B): Option[B] = opt match {
+      case Some(a) => Some(f(a))
+      case _ => None()
+    }
+
+    def map2[A, B](opt1: Option[A], opt2: Option[A])(f: (A, A) => B): Option[B] = (opt1, opt2) match {
+      case (Some(a), Some(b)) => Some(f(a, b))
+      case _ => None()
+    }
   }
 
   import Option._
@@ -33,4 +48,13 @@ object Optionals extends App {
   println(flatMap(s1)(i => Some(i+1))) // Some(2)
   println(flatMap(s1)(i => flatMap(s2)(j => Some(i+j)))) // Some(3)
   println(flatMap(s1)(i => flatMap(s3)(j => Some(i+j)))) // None
+
+  println(filter(Some(5))(_ > 2)) //Some(5)
+  println(filter(Some(5))(_ > 8)) // None()
+  println(map(Some(5))(_ > 2)) // Some(true)
+  println(map(None[Int]())(_ > 2)) // None()
+
+  println(map2(s1, s2)(_+_)) // Some(3)
+  println(map2(s1, None[Int]())(_*_)) // None()
+
 }
