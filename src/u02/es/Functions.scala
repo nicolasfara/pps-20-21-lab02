@@ -12,7 +12,7 @@ object Functions {
     case _ => "Odd"
   }
 
-  val neg: (String => Boolean) => String => Boolean = (pred: String => Boolean) => (x: String) => !pred(x)
+  val neg: (String => Boolean) => String => Boolean = (pred: String => Boolean) => !pred(_)
 
-  def negMethod[A](predicate: A => Boolean): A => Boolean = x => !predicate(x)
+  def negMethod[A](predicate: A => Boolean): A => Boolean = !predicate(_)
 }
