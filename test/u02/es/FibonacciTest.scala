@@ -1,6 +1,6 @@
 package u02.es
 
-import org.junit.jupiter.api.Assertions.{assertEquals, assertTimeout}
+import org.junit.jupiter.api.Assertions.{assertEquals, assertThrows, assertTimeout}
 import org.junit.jupiter.api.{Assertions, Test}
 import org.junit.jupiter.api.function.Executable
 import org.opentest4j.AssertionFailedError
@@ -22,21 +22,13 @@ class FibonacciTest {
   }
 
   @Test def testBigNumber(): Unit = {
-    Assertions.assertThrows(classOf[AssertionFailedError], () => {
-      assertTimeout(ofSeconds(2), new Executable {
-        override def execute(): Unit = {
-          fib(48)
-        }
-      })
+    assertThrows(classOf[StackOverflowError], () => {
+      fib(32145)
     })
   }
 
   @Test def testBigNumberTailRec(): Unit = {
-    assertTimeout(ofSeconds(2), new Executable {
-      override def execute(): Unit = {
-        assertEquals(512559680, fibTailRec(48))
-      }
-    })
+    assertEquals(-636952734, fibTailRec(32145))
   }
 
   private def testFibonacci(fibonacci: Int => Int): Unit = {
